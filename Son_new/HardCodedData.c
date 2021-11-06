@@ -80,7 +80,6 @@ void read_file(HANDLE file_handler, char* data_buffer)
 /* function that recieves command line argument from main, and manages file creation, reading and writing functions*/
 int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2)
 {
-	printf("offset val in son %d", offset);
 	LPCSTR encrypted_message_file_name = "Encrypted_message.txt";
 	LPCSTR plaintext_file_name = file_name_1;
 	LPCSTR key_file_name = file_name_2;

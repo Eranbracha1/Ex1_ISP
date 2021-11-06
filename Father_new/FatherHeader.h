@@ -9,3 +9,4 @@
 
 BOOL CreateProcessSimple(TCHAR CommandLine[], PROCESS_INFORMATION* ProcessInfoPtr);
 void CreateProcessSimpleMain(char** argv, int offset);
+HANDLE create_file_handler(LPCSTR p_file_name);
