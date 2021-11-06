@@ -104,7 +104,7 @@ void CreateProcessSimpleMain(char** argv, int offset)
 	CloseHandle(procinfo.hProcess); /* Closing the handle to the process */
 	CloseHandle(procinfo.hThread); /* Closing the handle to the main thread of the process */
 }
-//GAVRIZ
+//GAVRIZZ
 
 BOOL CreateProcessSimple(TCHAR CommandLine[], PROCESS_INFORMATION *ProcessInfoPtr)
 {
