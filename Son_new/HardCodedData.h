@@ -4,7 +4,6 @@
 #define __HardCodedData_H__
 #define MAX_LINE_LEN 17
 #define MAX_KEY_LEN 17
-#define MAX_FILE_NAME_LEN 500
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -25,6 +24,6 @@
 int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2);
 HANDLE create_file(LPCSTR p_file_name, char* mode);
 void write_file(HANDLE file_handler, char* p_message);
-void read_file(HANDLE file_handler, char* data_buffer, OVERLAPPED ol);
+void read_file(HANDLE file_handler, char* data_buffer);
 
 #endif // __HardCodedData_H__

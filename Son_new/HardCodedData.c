@@ -92,6 +92,7 @@ int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2)
 	DWORD dwBytesRead_plaintext = 0;
 	DWORD dwBytesRead_key = 0;
 	int plaintext_file_size = -1;
+
 	encrypted_message_handler = create_file(encrypted_message_file_name, "write");
 	plaintext_file_name_handler = create_file(plaintext_file_name, "read");
 	key_file_name_handler = create_file(key_file_name, "read");
