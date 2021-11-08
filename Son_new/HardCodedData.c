@@ -1,9 +1,15 @@
+/* Description -  this file includes the Son function instansiation and decleration  */
 #include "HardCodedData.h"
- 
+
 
 DWORD BYTES_TO_READ = 16;
 
-/* function that creates file both for reading and for writing, gets the file name and a char* of "read" or "write"*/
+
+/*
+Function Description: creates file both for reading and for writing, gets the file name and a char* of "read" or "write"
+Parameters: pointer to a file, and char
+Returns: a handle
+*/
 HANDLE create_file(LPCSTR p_file_name, char* mode)
 {
 	DWORD dwDesiredAccess;
@@ -43,7 +49,13 @@ HANDLE create_file(LPCSTR p_file_name, char* mode)
 	return hFile;
 
 }
-/* function that get the file handler and a char* message, and writes it to the file*/
+
+
+/*
+Function Description: get the file handler and a char* message, and writes it to the file
+Parameters:HANDLE to a file_handler and a pinter to p_message string
+Returns: void
+*/
 void write_file(HANDLE file_handler, char* p_message)
 {
 	DWORD dwBytesToWrite = (DWORD)strlen(p_message);
@@ -58,7 +70,13 @@ void write_file(HANDLE file_handler, char* p_message)
 		return STATUS_CODE_FAILURE;
 
 }
-/* function that get the file handler, a char* data buffer, and OVERLAPPED type offset, and reads data from file*/
+
+
+/*
+Function Description: get the file handler, a char* data buffer, and OVERLAPPED type offset, and reads data from file
+Parameters:HANDLE to a file_handler and a pinter to data_buffer string
+Returns: void
+*/
 void read_file(HANDLE file_handler, char* data_buffer)
 {
 	int nbytesread = 0;
@@ -74,7 +92,14 @@ void read_file(HANDLE file_handler, char* data_buffer)
 			
 		}
 }
-/* function that recieves command line argument from main, and manages file creation, reading and writing functions*/
+
+
+/*
+Function Description:   the 'main' functionality will happend here.  creatying handlers to the files that are given,
+						and creating a new file. encrypting the givven file with block chipper method, starting to encrypt from the given offset byte.
+Parameters: 2 file pointersand offset integer
+Returns:0 if socess, 1 if fails
+*/
 int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2)
 {
 	LPCSTR encrypted_message_file_name = "Encrypted_message.txt";

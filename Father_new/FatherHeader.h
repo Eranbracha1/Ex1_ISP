@@ -1,3 +1,4 @@
+/* Description -  declerations in header file  */
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>

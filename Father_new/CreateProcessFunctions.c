@@ -1,3 +1,4 @@
+/*Description- this file includes the Father function instansiation and decleration*/
 #include "FatherHeader.h"
 
 /**
@@ -25,7 +26,16 @@ HANDLE create_file_handler(LPCSTR p_file_name);
 * Demonstrates win32 process creation and termination.
 */
 
-// the father functionality. takes the files nane with specific offset, creating the commend line and activating the son
+
+
+/*
+Function Description:the father functionality. takes the files nane with specific offset, creating the commend line and activating the son.
+					the func creats a path that later on will be use to avtivating the SUon process, alocating command string in memory
+					and creating a process, while waiting that the process will finish, ot until timeout.
+					handeling with errors such as waitcode and allocations failures.
+Parameters: offset to start from, and file to encrypt & key files
+Returns: void -> exiting if error was found
+*/
 void CreateProcessSimpleMain(char** argv, int offset)
 {
 	char offset_string[50] ="\0";
@@ -108,7 +118,13 @@ void CreateProcessSimpleMain(char** argv, int offset)
 		exit(1);
 	}
 }
-/* this function get commandline argument TCHAR, and PROCESS INFORMATION, and creates a new process*/
+
+
+/*
+Function Description: gets arguments and creates a new process using API func
+Parameters: commandline argument TCHAR, PROCESS INFORMATION
+Returns: TRUE if success False else
+*/
 BOOL CreateProcessSimple(TCHAR CommandLine[], PROCESS_INFORMATION *ProcessInfoPtr)
 {
 	STARTUPINFO	startinfo = { sizeof(STARTUPINFO), NULL, 0 }; /* <ISP> here we */
@@ -131,23 +147,30 @@ BOOL CreateProcessSimple(TCHAR CommandLine[], PROCESS_INFORMATION *ProcessInfoPt
 		ProcessInfoPtr			/*  Pointer to PROCESS_INFORMATION structure. */
 	);
 }
-/*a function that gets a file name and opens a handler for it, in order to check the file size*/
+
+
+/*
+Function Description:gets a file name and opens a handler for it, in order to check the file size, handeling failure
+Parameters:pointer to file name
+Returns: handle to a file
+*/
 HANDLE create_file_handler(LPCSTR p_file_name)
 {
 
 	HANDLE hFile = CreateFileA(
 		p_file_name,			// Filename
-		GENERIC_READ,		// Desired access
+		GENERIC_READ,			// Desired access
 		FILE_SHARE_READ,        // Share mode
 		NULL,                   // Security attributes
-		OPEN_EXISTING,            // Creates a new file, only if it doesn't already exist
-		FILE_ATTRIBUTE_NORMAL,			// Flags and attributes
+		OPEN_EXISTING,          // Creates a new file, only if it doesn't already exist
+		FILE_ATTRIBUTE_NORMAL,	// Flags and attributes
 		NULL);                  // Template file handle
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		printf("INVALID HANDLE VALUE: could not create file Handle\nclosing the program \n");
-		return STATUS_CODE_FAILURE;
+		//return STATUS_CODE_FAILURE; //Tocheck -> returns? or exit
+		exit(1);
 	}
 	return hFile;
 

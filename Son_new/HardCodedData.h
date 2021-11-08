@@ -1,3 +1,4 @@
+/* Description -   declerations in header file   */
 // HardCodedData.h
 #define _CRT_SECURE_NO_WARNINGS
 #ifndef __HardCodedData_H__
