@@ -1,5 +1,6 @@
-// HardCodedData.h
 #define _CRT_SECURE_NO_WARNINGS
+/* Description -   declerations in header file   */
+// HardCodedData.h
 #ifndef __HardCodedData_H__
 #define __HardCodedData_H__
 #define MAX_LINE_LEN 17
