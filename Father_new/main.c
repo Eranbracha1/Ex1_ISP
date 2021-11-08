@@ -1,6 +1,20 @@
-﻿#include "FatherHeader.h"
+﻿/*
+Intro to System Programming - Project #1 - Father project
+Gabriel sofer               Eran bracha
+313589202			        312275514
+project description :- this project simulating Father process that creats Son process few time,
+as many as he need, to block chippering a file given with a key file.  the encrypted message  will
+be writen to new file.   the whole project includes using API instructions.
+*/
 
 
+#include "FatherHeader.h"
+
+/*
+Function Description: main function. receives 2 files: one to encrypt and a key file. checks that the correct number of parameters were given, and sending 16 bytes from the file to a new process called Son
+Parameters: file to encrypt, key file
+Returns: 0 if success, 1 if failed
+*/
 int main(int argc, char* argv[])
 {
 	/*

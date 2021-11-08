@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+/* Description -  declerations in header file  */
 
 #include <stdio.h>
 #include <windows.h>
