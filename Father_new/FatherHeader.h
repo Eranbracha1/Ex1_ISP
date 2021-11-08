@@ -6,6 +6,9 @@
 
 #define TIMEOUT_IN_MILLISECONDS 5000
 #define BRUTAL_TERMINATION_CODE 0x55
+#define STATUS_CODE_SUCCESS (int)0;
+#define STATUS_CODE_FAILURE (int)1;
+
 
 BOOL CreateProcessSimple(TCHAR CommandLine[], PROCESS_INFORMATION* ProcessInfoPtr);
 void CreateProcessSimpleMain(char** argv, int offset);

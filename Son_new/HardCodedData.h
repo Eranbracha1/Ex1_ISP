@@ -4,6 +4,9 @@
 #define __HardCodedData_H__
 #define MAX_LINE_LEN 17
 #define MAX_KEY_LEN 17
+#define STATUS_CODE_SUCCESS (int)0;
+#define STATUS_CODE_FAILURE (int)1;
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,9 +17,6 @@
 
 
 // Constants -------------------------------------------------------------------
-
-#define LOG__STATUS_CODE_SUCCESS ((int)(0))
-#define LOG__STATUS_CODE_FAILURE ((int)(-1))
 
 // Function Declarations -------------------------------------------------------
 

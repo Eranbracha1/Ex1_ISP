@@ -1,9 +1,7 @@
 #include "HardCodedData.h"
  
-static const int STATUS_CODE_SUCCESS = 0;
-static const int STATUS_CODE_FAILURE = 1;
+
 DWORD BYTES_TO_READ = 16;
-//static const char ENCRYPTED_MESSAGE_PATH[] = "Encrypted_message.txt";
 
 /* function that creates file both for reading and for writing, gets the file name and a char* of "read" or "write"*/
 HANDLE create_file(LPCSTR p_file_name, char* mode)
@@ -39,8 +37,8 @@ HANDLE create_file(LPCSTR p_file_name, char* mode)
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
-		// Failed to open/create file
-		return 2;
+		printf("INVALID HANDLE VALUE: could not create file Handle\nclosing the program \n");
+		return STATUS_CODE_FAILURE;
 	}
 	return hFile;
 
@@ -56,7 +54,7 @@ void write_file(HANDLE file_handler, char* p_message)
 		dwBytesToWrite,					// Buffer size
 		dwBytesWritten,					// Bytes written
 		NULL))
-		//FILE_FLAG_OVERLAPPED))         // Overlapped
+		printf("could not set read file\n closing the program\n");
 		return STATUS_CODE_FAILURE;
 
 }
@@ -68,11 +66,10 @@ void read_file(HANDLE file_handler, char* data_buffer)
 			file_handler,
 			data_buffer,
 			BYTES_TO_READ,
-			//NULL,
 			&nbytesread,
-			//&ol
 			NULL))
 		{
+			printf("could not set read file\n closing the program\n");
 			return STATUS_CODE_FAILURE;
 			
 		}
@@ -85,7 +82,7 @@ int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2)
 	LPCSTR key_file_name = file_name_2;
 	char plaintext_buffer[MAX_LINE_LEN] = { '\0'};
 	char key_buffer[MAX_LINE_LEN] = { 0 };
-	char encrypted_message[MAX_LINE_LEN]; //[MAX_LINE_LEN];
+	char encrypted_message[MAX_LINE_LEN]; 
 	HANDLE plaintext_file_name_handler;
 	HANDLE key_file_name_handler;
 	HANDLE encrypted_message_handler;
@@ -107,6 +104,7 @@ int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2)
 			CloseHandle(encrypted_message_handler);
 			CloseHandle(plaintext_file_name_handler);
 			CloseHandle(key_file_name_handler);
+			printf("SetFilePointer of %hs returned INVALID VALUE,\n could not set file pointer returning failure", plaintext_file_name);
 			return STATUS_CODE_FAILURE;
 		}
 			if (INVALID_SET_FILE_POINTER == SetFilePointer(encrypted_message_handler, offset, NULL, NULL))
@@ -114,6 +112,7 @@ int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2)
 			CloseHandle(encrypted_message_handler);
 			CloseHandle(plaintext_file_name_handler);
 			CloseHandle(key_file_name_handler);
+			printf("SetFilePointer of %hs returned INVALID VALUE,\n could not set file pointer returning failure", encrypted_message_file_name);
 			return STATUS_CODE_FAILURE;
 		}
 
@@ -139,5 +138,3 @@ int main_function(LPCSTR file_name_1, int offset, LPCSTR file_name_2)
 
 	return STATUS_CODE_SUCCESS;
 }
-
-

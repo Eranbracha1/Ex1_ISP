@@ -25,7 +25,7 @@ HANDLE create_file_handler(LPCSTR p_file_name);
 * Demonstrates win32 process creation and termination.
 */
 
-
+// the father functionality. takes the files nane with specific offset, creating the commend line and activating the son
 void CreateProcessSimpleMain(char** argv, int offset)
 {
 	char offset_string[50] ="\0";
@@ -40,36 +40,36 @@ void CreateProcessSimpleMain(char** argv, int offset)
 	BOOL				retVal;
 	char*				command = (char*)malloc(size_of_command * sizeof(char*));
 	if (command == NULL) {
-		printf("Memory allocating for son command string failed.");
-		//return BAD_STATUS;
-		return 1;
+		printf("Memory allocating for son command string failed.\nclosing the program\n");
+		exit(1);
 	}
-	sprintf_s(command, size_of_command, "Son.exe %s %s %s",
+	sprintf_s(command, size_of_command, "..\\Debug\\Son.exe %s %s %s",
 		argv[1], offset_string, argv[2]);
 
 
-	TCHAR* commandt = (TCHAR*)malloc(size_of_command * sizeof(TCHAR*));
-	if (commandt == NULL) {
-		printf("Memory allocating for son commandt string failed.");
-		//return BAD_STATUS;
-		return 1;
+	TCHAR* command_t = (TCHAR*)malloc(size_of_command * sizeof(TCHAR*));
+	if (command_t == NULL) {
+		printf("Memory allocating for son command_t string failed.\nclosing the program\n");
+		free(command);
+		exit(1);
 	}
-	swprintf(commandt, size_of_command, L"%hs", command);
+	//Write formatted data to wide string
+	swprintf(command_t, size_of_command, L"%hs", command);
 
 			/*  Start the child process. */
-	retVal = CreateProcessSimple(commandt, &procinfo);
+	retVal = CreateProcessSimple(command_t, &procinfo);
 
 	if (retVal == 0)
 	{
-		printf("Process Creation Failed!\n");
-		return;
+		printf("Process Creation Failed!\nclosing program\n");
+		free(command);
+		free(command_t);
+		exit(1);
 	}
 
-	waitcode = WaitForSingleObject(
-		procinfo.hProcess,
-		TIMEOUT_IN_MILLISECONDS); /* Waiting 5 secs for the process to end */
+	waitcode = WaitForSingleObject(procinfo.hProcess, TIMEOUT_IN_MILLISECONDS); /* Waiting 5 secs for the process to end */
 
-	printf("WaitForSingleObject output: ");
+	printf("WaitForSingleObject is: ");
 	switch (waitcode)
 	{
 	case WAIT_TIMEOUT:
@@ -84,28 +84,31 @@ void CreateProcessSimpleMain(char** argv, int offset)
 	{
 		printf("Process was not terminated before timeout!\n"
 			"Terminating brutally!\n");
-		TerminateProcess(
-			procinfo.hProcess,
-			BRUTAL_TERMINATION_CODE); /* Terminating process with an exit code of 55h */
-			Sleep(10); /* Waiting a few milliseconds for the process to terminate,
+		TerminateProcess(procinfo.hProcess, BRUTAL_TERMINATION_CODE); /* Terminating process with an exit code of 55h */
+		Sleep(10);		/* Waiting a few milliseconds for the process to terminate,
 						note the above command may also fail, so another WaitForSingleObject is required.
 						We skip this for brevity */
 	}
 
 	GetExitCodeProcess(procinfo.hProcess, &exitcode);
+	/*note that checking GetExitCodeProcess return value is in line 96*/
 
-	printf("The exit code for the process is 0x%x\n", exitcode);
-
-	/* Note: process is still being tracked by OS until we release handles */
 	if (command != NULL)
 		free(command);
-	if (commandt != NULL)
-		free(commandt);
+	if (command_t != NULL)
+		free(command_t);
 	CloseHandle(procinfo.hProcess); /* Closing the handle to the process */
 	CloseHandle(procinfo.hThread); /* Closing the handle to the main thread of the process */
-}
-//GAVRIZZ
 
+
+	printf("The exit code for the process is 0x%x\n", exitcode);
+	if (exitcode != 0 && exitcode != 2)
+	{
+		printf("ERROR IN SON PROCESS\n EXITING PROGRAM");
+		exit(1);
+	}
+}
+/* this function get commandline argument TCHAR, and PROCESS INFORMATION, and creates a new process*/
 BOOL CreateProcessSimple(TCHAR CommandLine[], PROCESS_INFORMATION *ProcessInfoPtr)
 {
 	STARTUPINFO	startinfo = { sizeof(STARTUPINFO), NULL, 0 }; /* <ISP> here we */
@@ -128,8 +131,7 @@ BOOL CreateProcessSimple(TCHAR CommandLine[], PROCESS_INFORMATION *ProcessInfoPt
 		ProcessInfoPtr			/*  Pointer to PROCESS_INFORMATION structure. */
 	);
 }
-
-
+/*a function that gets a file name and opens a handler for it, in order to check the file size*/
 HANDLE create_file_handler(LPCSTR p_file_name)
 {
 
@@ -144,8 +146,8 @@ HANDLE create_file_handler(LPCSTR p_file_name)
 
 	if (hFile == INVALID_HANDLE_VALUE)
 	{
-		// Failed to open/create file
-		return 2;
+		printf("INVALID HANDLE VALUE: could not create file Handle\nclosing the program \n");
+		return STATUS_CODE_FAILURE;
 	}
 	return hFile;
 
